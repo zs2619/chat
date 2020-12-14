@@ -1,0 +1,16 @@
+version: "3.0"
+services:
+  nats-server-test:
+    networks:
+      - kissrtm_docker_test_networks
+    image: nats:2.1
+  kissrtm-build-test:
+    container_name: kissrtm-build-test
+    image: kissrtm-build:latest
+    networks:
+      - kissrtm_docker_test_networks
+    command: go test -cover -race -parallel 1 -p 1 -v ./... 
+    depends_on:
+       - nats-server-test
+networks:
+  kissrtm_docker_test_networks:

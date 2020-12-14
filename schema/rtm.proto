@@ -1,0 +1,104 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;pb";
+
+message RTMMsgType {
+	enum RTMMsgEnum{
+		Private  = 0;
+		Room     = 1;
+	}
+}
+message RTMMsgErrType {
+	enum RTMMsgErrEnum{
+		RecvUserNoOnline  = 0;
+		UserSessionErr    = 1;
+	}
+}
+
+/**
+客户端发送给服务器消息id
+*/
+message C2S_MsgID {
+  enum MsgID {
+	LoginRTM       =0;
+	SendRTM        =1;
+	JoinRoomChan    =2;
+	QuitRoomChan    =3;
+  }
+}
+// LoginRTM   =0;
+message C2S_RTMMsgLogin{
+	string userSession   =1;
+}
+
+// SendRTM    =1;
+message C2S_RTMMsgSend{
+	RTMMsgType.RTMMsgEnum   rtmType   =1;
+	string                  sendName   =2;
+	string                  sendUserID =3;
+	string      			convID     =4; // rtmtype private为userId  room 为相应id
+	string      			msg        =5;
+}
+// JoinRoomChan    =2;
+message C2S_JoinRoomChan{
+	string roomID =1;
+}
+// QuitRoomChan    =3;
+message C2S_QuitRoomChan{
+	string roomID =1;
+}
+
+/**
+服务器发送给客户端消息id
+*/
+message S2C_MsgID {
+  enum MsgID{
+	LoginOK             =0;
+	LoginFail           =1;
+	RTMMsgErr          =2;
+	EventNotify         =3;
+
+	RecvRTM    	    =11;
+	JoinRoomChanOK      =12;
+	JoinRoomChanFailed  =13;
+  }
+}
+// LoginOK     =0;
+message S2C_LoginOK{
+	string userID   =1;
+}
+
+// LoginFail   =1;
+message S2C_LoginFail{
+	RTMMsgErrType.RTMMsgErrEnum  err    =1;
+}
+
+// RecvRTM    =11;
+message S2C_RTMMsgRecv{
+	RTMMsgType.RTMMsgEnum rtmType   =1;
+	string                  sendName   =2;
+	string                  sendUserID =3;
+	string                  convID     =4;
+	string                  msg        =5;
+	int64                   sendTime   =6;
+}
+
+// JoinRoomChanOK     =12;
+message S2C_JoinRoomChanOK{
+	string roomID =1;
+}
+// JoinRoomChanFailed  =13;
+message S2C_JoinRoomChanFailed{
+}
+
+//RTMErr     =2;
+message S2C_RTMMsgErr{
+	RTMMsgType.RTMMsgEnum        rtmType   =1;
+	RTMMsgErrType.RTMMsgErrEnum  rtmErr    =2;
+}
+
+//// eventType 
+message S2C_EventNotify{
+	int32    eventType   =1;
+	string   msg         =2;
+}

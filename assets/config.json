@@ -1,0 +1,6 @@
+{
+	"logLevel": "info",
+	"natsURI": "172.17.0.1:4222",
+	"rtmServerPort": 10001,
+	"rtmServerType": "ws"
+}

@@ -1,0 +1,20 @@
+version: "3.0"
+services:
+  nats-server:
+    image: nats:2.1
+    ports:
+      - 4222:4222
+      - 8222:8222
+    restart: always
+  rtm:
+    build: 
+      context: .
+      dockerfile: Dockerfile.run
+    restart: always
+    environment:
+      - KISSRTM_RTMSERVERPORT=10001
+      - KISSRTM_NATSURI=nats-server:4222
+    ports:      
+      - 2619:10001
+    depends_on:
+      - nats-server

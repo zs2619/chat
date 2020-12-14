@@ -1,0 +1,13 @@
+FROM golang:1.14-stretch
+
+ARG appname
+ENV Appname ${appname}
+
+ADD . $GOPATH/src/$appname
+WORKDIR $GOPATH/src/$appname
+RUN go build -o kissrtm main.go
+
+CMD tar -zcf - Dockerfile.run  \
+	ca-certificates.crt \
+	${Appname}  \
+	assets

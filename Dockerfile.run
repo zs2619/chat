@@ -1,0 +1,9 @@
+FROM debian:stretch-20190812-slim 
+
+ADD ca-certificates.crt /etc/ssl/certs/
+RUN mkdir /kissrtm
+COPY kissrtm /kissrtm/
+COPY assets /kissrtm/assets
+
+WORKDIR /kissrtm
+CMD ./kissrtm
