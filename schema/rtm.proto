@@ -20,10 +20,10 @@ message RTMMsgErrType {
 */
 message C2S_MsgID {
   enum MsgID {
-	LoginRTM       =0;
-	SendRTM        =1;
-	JoinRoomChan    =2;
-	QuitRoomChan    =3;
+	LoginRTM        =0;
+	SendRTM         =1;
+	JoinRoomChan    =2; //加入房间
+	QuitRoomChan    =3; //推出房间
   }
 }
 // LoginRTM   =0;
@@ -33,11 +33,11 @@ message C2S_RTMMsgLogin{
 
 // SendRTM    =1;
 message C2S_RTMMsgSend{
-	RTMMsgType.RTMMsgEnum   rtmType   =1;
+	RTMMsgType.RTMMsgEnum   rtmType    =1;
 	string                  sendName   =2;
 	string                  sendUserID =3;
-	string      			convID     =4; // rtmtype private为userId  room 为相应id
-	string      			msg        =5;
+	string                  convID     =4; // rtmtype private为userId  room 为相应id
+	string                  msg        =5;
 }
 // JoinRoomChan    =2;
 message C2S_JoinRoomChan{
@@ -53,14 +53,14 @@ message C2S_QuitRoomChan{
 */
 message S2C_MsgID {
   enum MsgID{
-	LoginOK             =0;
-	LoginFail           =1;
+	LoginOK            =0;
+	LoginFail          =1;
 	RTMMsgErr          =2;
-	EventNotify         =3;
+	EventNotify        =3;
 
-	RecvRTM    	    =11;
-	JoinRoomChanOK      =12;
-	JoinRoomChanFailed  =13;
+	RecvRTM    	       =11;
+	JoinRoomChanOK     =12;
+	JoinRoomChanFailed =13;
   }
 }
 // LoginOK     =0;
@@ -75,7 +75,7 @@ message S2C_LoginFail{
 
 // RecvRTM    =11;
 message S2C_RTMMsgRecv{
-	RTMMsgType.RTMMsgEnum rtmType   =1;
+	RTMMsgType.RTMMsgEnum   rtmType    =1;
 	string                  sendName   =2;
 	string                  sendUserID =3;
 	string                  convID     =4;
